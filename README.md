@@ -2,7 +2,7 @@
 
 A tool for facilitating markdown chat conversations with Large Language Models.
 
-![Example `markdownchat` conversation](./markdownchat.gif)
+![Example `markdownchat` conversation](https://raw.githubusercontent.com/aaronccasanova/markdownchat/main/markdownchat.gif)
 
 ## Quick start
 
