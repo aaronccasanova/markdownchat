@@ -1,0 +1,13 @@
+{
+  "name": "markdownchat",
+  "version": "0.0.1",
+  "bin": "index.mjs",
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "js-yaml": "^4.1.0",
+    "openai": "^4.40.2",
+    "remark-frontmatter": "^5.0.0",
+    "remark-parse": "^11.0.0",
+    "unified": "^11.0.4"
+  }
+}
