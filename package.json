@@ -1,6 +1,8 @@
 {
   "name": "markdownchat",
-  "version": "0.0.2",
+  "version": "0.0.3",
+  "description": "Facilitates markdownchat conversations with Large Language Models",
+  "author": "Aaron Casanova <aaron@aaronccasanova.com>",
   "bin": "index.mjs",
   "dependencies": {
     "dotenv": "^16.4.5",
@@ -9,5 +11,9 @@
     "remark-frontmatter": "^5.0.0",
     "remark-parse": "^11.0.0",
     "unified": "^11.0.4"
+  },
+  "homepage": "https://github.com/aaronccasanova/markdownchat",
+  "bugs": {
+    "url": "https://github.com/aaronccasanova/markdownchat/issues"
   }
 }
