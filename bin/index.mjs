@@ -4,11 +4,12 @@ import * as fs from 'node:fs'
 import * as util from 'node:util'
 import * as path from 'node:path'
 
-import { unified } from 'unified'
-import remarkParse from 'remark-parse'
-import remarkFrontmatter from 'remark-frontmatter'
-import * as yaml from 'js-yaml'
 import { OpenAI } from 'openai'
+import {
+  createChatMessageName,
+  createChatMessageSeparator,
+  parse,
+} from '../src/index.mjs'
 
 const cli = util.parseArgs({
   // markdownchat [markdownchat-file] (default: "./markdownchat.md")
@@ -82,15 +83,13 @@ if (!markdownchatFilePath.endsWith('.md')) {
   throw new Error('Expected markdownchat file to end with ".md"')
 }
 
-const userRole = 'user'
 // TODO: Parameterize to --user-name or similar
 const userChatMessageName = createChatMessageName('me')
-const userChatMessageSeparator = createChatMessageSeparator(userRole)
+const userChatMessageSeparator = createChatMessageSeparator('user')
 
-const aiRole = 'assistant'
 // TODO: Parameterize to --ai-name or similar
 const aiChatMessageName = createChatMessageName('ai')
-const aiChatMessageSeparator = createChatMessageSeparator(aiRole)
+const aiChatMessageSeparator = createChatMessageSeparator('ai')
 
 if (!fs.existsSync(markdownchatFilePath)) {
   await fs.promises.writeFile(
@@ -126,94 +125,7 @@ const markdownchatFileContent = await fs.promises.readFile(
   'utf8',
 )
 
-const processor = unified().use(remarkParse).use(remarkFrontmatter)
-const root = processor.parse(markdownchatFileContent)
-
-/**
- * @typedef {{
- *   role: 'system' | 'user' | 'assistant';
- *   content: string;
- *   name?: string;
- * }} ChatMessage
- *
- * @type {ChatMessage[]}
- */
-const chatMessages = []
-
-const frontmatterNode = root.children.find((node) => node.type === 'yaml')
-
-if (frontmatterNode) {
-  // TODO: Consider adding `model` to frontmatter
-  const frontmatter =
-    /** @type {{ title?: string; description?: string; instructions?: string; }} */ (
-      yaml.load(frontmatterNode.value)
-    )
-
-  const instructions = frontmatter.instructions?.trim() || ''
-
-  if (instructions) {
-    chatMessages.push({
-      role: 'system',
-      content: instructions,
-    })
-  }
-}
-
-const htmlNodes = root.children.filter(
-  (rootContent) => rootContent.type === 'html',
-)
-// TODO: Parse HTML nodes to get the locations of chat message separators accurately.
-// Why: `remark-parse` groups HTML nodes in markdown files and this initial approach
-// would skip over separators when messages end with HTML nodes.
-const htmlSeparatorNodes = htmlNodes.filter(
-  (node) =>
-    node.value.startsWith(userChatMessageSeparator) ||
-    node.value.startsWith(aiChatMessageSeparator),
-)
-
-const chatMessageRoleRegExp = /data-chat-message-role="([^"]+)"/
-const chatMessageNameRegExp = /^\*\*([^:]+):\*\*/
-
-for (let i = 0; i < htmlSeparatorNodes.length; i++) {
-  const chatMessageRole = htmlSeparatorNodes[i].value.match(
-    chatMessageRoleRegExp,
-  )?.[1]
-
-  if (!(chatMessageRole === userRole || chatMessageRole === aiRole)) {
-    throw new Error(
-      `Expected chat message role to be "${userRole}" or "${aiRole}"`,
-    )
-  }
-
-  const currentSeparatorIndexEnd = htmlSeparatorNodes[i].position?.end.offset
-
-  if (!currentSeparatorIndexEnd) {
-    throw new Error('Could not find end of the current chat message separator')
-  }
-
-  const nextSeparatorIndexStart =
-    htmlSeparatorNodes[i + 1]?.position?.start.offset
-
-  let chatMessageContent = markdownchatFileContent
-    .slice(currentSeparatorIndexEnd, nextSeparatorIndexStart)
-    .trim()
-
-  const chatMessageName = chatMessageContent.match(chatMessageNameRegExp)?.[1]
-
-  if (chatMessageName) {
-    chatMessageContent = chatMessageContent
-      .replace(chatMessageNameRegExp, '')
-      .trim()
-  }
-
-  if (!chatMessageContent) throw new Error('Missing chat message content')
-
-  chatMessages.push({
-    role: chatMessageRole,
-    content: chatMessageContent,
-    name: chatMessageName,
-  })
-}
+const chatMessages = parse(markdownchatFileContent)
 
 const openai = new OpenAI({
   apiKey,
@@ -225,7 +137,11 @@ const temperature = cli.values.temperature?.trim()
 const chatCompletionStream = await openai.chat.completions.create({
   model: cli.values.model?.trim() || 'gpt-3.5-turbo',
   temperature: temperature ? parseFloat(temperature) : 0.5,
-  messages: chatMessages,
+  messages: chatMessages.map((chatMessage) => ({
+    role: chatMessage.role === 'ai' ? 'assistant' : chatMessage.role,
+    content: chatMessage.content,
+    name: chatMessage.name,
+  })),
   stream: true,
 })
 
@@ -249,11 +165,3 @@ markdownchatFileWriteStream.write(
 )
 
 markdownchatFileWriteStream.end()
-
-function createChatMessageSeparator(/** @type {string} */ role) {
-  return `<hr data-chat-message-role="${role}">`
-}
-
-function createChatMessageName(/** @type {string} */ name) {
-  return `**${name}:**`
-}

@@ -1,13 +1,21 @@
 {
   "name": "markdownchat",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Facilitates markdownchat conversations with Large Language Models",
   "author": "Aaron Casanova <aaron@aaronccasanova.com>",
-  "bin": "index.mjs",
+  "bin": "./bin/index.mjs",
+  "exports": "./src/index.mjs",
+  "files": [
+    "src"
+  ],
+  "scripts": {
+    "markdownchat": "node ./bin/index.mjs --env-file .env"
+  },
   "dependencies": {
     "dotenv": "^16.4.5",
     "js-yaml": "^4.1.0",
     "openai": "^4.40.2",
+    "rehype-parse": "^9.0.0",
     "remark-frontmatter": "^5.0.0",
     "remark-parse": "^11.0.0",
     "unified": "^11.0.4"
