@@ -1,9 +1,11 @@
 {
   "name": "markdownchat",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Facilitates markdownchat conversations with Large Language Models",
   "author": "Aaron Casanova <aaron@aaronccasanova.com>",
-  "bin": "./bin/index.mjs",
+  "bin": {
+    "markdownchat": "bin/index.mjs"
+  },
   "exports": "./src/index.mjs",
   "files": [
     "src"
