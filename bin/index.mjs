@@ -17,6 +17,8 @@ const cli = util.parseArgs({
   options: {
     // -h, --help (boolean) Show help
     help: { type: 'boolean', short: 'h' },
+    // -v, --version (boolean) Show version number
+    version: { type: 'boolean', short: 'v' },
     // -m, --model (string) OpenAI model (default: "gpt-3.5-turbo")
     model: { type: 'string', short: 'm' },
     // -t, --temperature (number) Temperature of model (default: 0.5)
@@ -46,6 +48,19 @@ Examples
   $ npx markdownchat ./markdownchat.md
   $ npx markdownchat ./markdownchat.md --model gpt-4.5-turbo
 `.trim(),
+  )
+
+  process.exit(0)
+}
+
+if (cli.values.version) {
+  console.log(
+    JSON.parse(
+      await fs.promises.readFile(
+        new URL('../package.json', import.meta.url),
+        'utf8',
+      ),
+    ).version,
   )
 
   process.exit(0)
