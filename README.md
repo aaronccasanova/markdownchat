@@ -37,6 +37,7 @@ Usage
 
 Options
   -h, --help         Show help text
+  -v, --version      Show version number
   -m, --model        Name of model (default: "gpt-3.5-turbo")
   -t, --temperature  Temperature of model (default: 0.5)
   --env-file         Path to .env file
