@@ -1,5 +1,5 @@
 export const chatMessageNameRegExp = /^\*\*([^:]+):\*\*/
 
-export function createChatMessageName(/** @type {string} */ name) {
+export function createChatMessageName(name: string) {
   return `**${name}:**`
 }

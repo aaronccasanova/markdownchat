@@ -1,29 +1,16 @@
 {
-  "name": "markdownchat",
-  "version": "0.0.8",
+  "name": "markdownchat-root",
+  "version": "0.0.0",
   "description": "Facilitates markdownchat conversations with Large Language Models",
   "author": "Aaron Casanova <aaron@aaronccasanova.com>",
-  "bin": {
-    "markdownchat": "bin/index.mjs"
-  },
-  "exports": "./src/index.mjs",
-  "files": [
-    "src"
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "markdownchat"
   ],
   "scripts": {
-    "markdownchat": "node ./bin/index.mjs --env-file .env"
-  },
-  "dependencies": {
-    "dotenv": "^16.4.5",
-    "js-yaml": "^4.1.0",
-    "openai": "^4.40.2",
-    "rehype-parse": "^9.0.0",
-    "remark-frontmatter": "^5.0.0",
-    "remark-parse": "^11.0.0",
-    "unified": "^11.0.4"
-  },
-  "homepage": "https://github.com/aaronccasanova/markdownchat",
-  "bugs": {
-    "url": "https://github.com/aaronccasanova/markdownchat/issues"
+    "build": "npm run build --workspace markdownchat",
+    "dev": "npm run dev --workspace markdownchat",
+    "markdownchat": "node markdownchat/bin/index.js --env-file .env"
   }
 }

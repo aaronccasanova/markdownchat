@@ -1,7 +1,7 @@
+import type { ChatMessageRole } from './chat-message-role.js'
+
 export const chatMessageSeparatorDataAttribute = 'data-markdownchat-message'
 
-export function createChatMessageSeparator(
-  /** @type {import('./chat-message-role.mjs').ChatMessageRole} */ chatMessageRole,
-) {
+export function createChatMessageSeparator(chatMessageRole: ChatMessageRole) {
   return `<hr ${chatMessageSeparatorDataAttribute}="${chatMessageRole}">`
 }

@@ -1,0 +1,36 @@
+{
+  "name": "markdownchat",
+  "version": "0.0.9",
+  "description": "Facilitates markdownchat conversations with Large Language Models",
+  "author": "Aaron Casanova <aaron@aaronccasanova.com>",
+  "type": "module",
+  "bin": {
+    "markdownchat": "bin/index.js"
+  },
+  "exports": "./src/index.js",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc -w",
+    "prepublishOnly": "npm run build"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "js-yaml": "^4.1.0",
+    "openai": "^4.40.2",
+    "rehype-parse": "^9.0.0",
+    "remark-frontmatter": "^5.0.0",
+    "remark-parse": "^11.0.0",
+    "unified": "^11.0.4"
+  },
+  "devDependencies": {
+    "@types/js-yaml": "^4.0.9",
+    "typescript": "~5.4.5"
+  },
+  "homepage": "https://github.com/aaronccasanova/markdownchat",
+  "bugs": {
+    "url": "https://github.com/aaronccasanova/markdownchat/issues"
+  }
+}

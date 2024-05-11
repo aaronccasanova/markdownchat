@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    // Base options
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "target": "ES2022",
+    "moduleDetection": "force",
+    "isolatedModules": true,
+    "verbatimModuleSyntax": true,
+
+    // Strictness
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "noImplicitOverride": true
+  }
+}

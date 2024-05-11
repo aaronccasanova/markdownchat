@@ -5,11 +5,12 @@ import * as util from 'node:util'
 import * as path from 'node:path'
 
 import { OpenAI } from 'openai'
+
 import {
   createChatMessageName,
   createChatMessageSeparator,
   parse,
-} from '../src/index.mjs'
+} from '../dist/index.js'
 
 const cli = util.parseArgs({
   // markdownchat [markdownchat-file] (default: "./markdownchat.md")

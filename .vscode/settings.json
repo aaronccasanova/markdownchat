@@ -1,3 +1,4 @@
 {
-  "cSpell.words": ["markdownchat"]
+  "cSpell.words": ["markdownchat"],
+  "typescript.tsdk": "node_modules/typescript/lib"
 }
