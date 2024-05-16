@@ -1,0 +1,18 @@
+# Adapted from https://github.com/aws/aws-toolkit-vscode/blob/fe588c52577805e2eb2d565eb254f830f78054c8/packages/.vscodeignore.packages#L1
+
+# Ignore everything by default. #1899
+*
+*/**
+
+# Ignore outside dirs up to the root package.json, otherwise those will be collected as well
+# (until vsce officially supports workspaces: https://github.com/microsoft/vscode-vsce/issues/580)
+../**
+../../**
+
+# Allowlist
+# ---------
+!dist/*
+
+!package.json
+!README.md
+!CHANGELOG.md

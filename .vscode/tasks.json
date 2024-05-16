@@ -1,0 +1,27 @@
+// See https://go.microsoft.com/fwlink/?LinkId=733558
+// for the documentation about the tasks.json format
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "markdownchat-vscode-watch",
+      "type": "npm",
+      "script": "watch",
+      "problemMatcher": "$tsc-watch",
+      "isBackground": true,
+      "presentation": {
+        "reveal": "never"
+      },
+      "group": {
+        "kind": "build"
+        // Tenatively removed `isDefault: true` in favor of explicitly
+        // referencing the above "label" in `launch.json#preLaunchTask`
+        // (e.g. from `${defaultBuildTask}` to `markdownchat-vscode-watch`)
+        // "isDefault": true
+      },
+      "options": {
+        "cwd": "${workspaceFolder}/markdownchat-vscode"
+      }
+    }
+  ]
+}

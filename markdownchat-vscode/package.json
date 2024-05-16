@@ -1,0 +1,92 @@
+{
+  "name": "markdownchat-vscode",
+  "displayName": "markdownchat",
+  "publisher": "aaronccasanova",
+  "version": "0.0.2",
+  "description": "Facilitates markdownchat conversations with Large Language Models",
+  "private": true,
+  "main": "./dist/index.js",
+  "activationEvents": [],
+  "contributes": {
+    "commands": [
+      {
+        "command": "markdownchat.new-markdownchat",
+        "title": "New markdownchat file"
+      },
+      {
+        "command": "markdownchat.run-markdownchat",
+        "title": "Run markdownchat file"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "markdownchat.new-markdownchat",
+        "key": "ctrl+k ctrl+n",
+        "mac": "cmd+k cmd+n"
+      },
+      {
+        "command": "markdownchat.run-markdownchat",
+        "key": "ctrl+k ctrl+m",
+        "mac": "cmd+k cmd+m"
+      }
+    ],
+    "configuration": {
+      "title": "Markdown Chat Settings",
+      "properties": {
+        "markdownchat.openaiBaseURL": {
+          "type": "string",
+          "default": "https://api.openai.com/v1",
+          "description": "Base URL for OpenAI API"
+        },
+        "markdownchat.model": {
+          "type": "string",
+          "default": "gpt-3.5-turbo",
+          "description": "Model for OpenAI API"
+        },
+        "markdownchat.temperature": {
+          "type": "string",
+          "default": "https://api.openai.com/v1",
+          "description": "Base URL for OpenAI API"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run build -- --minify",
+    "build": "ncc build src/extension.ts -o dist --external vscode",
+    "watch": "npm run build -- --watch",
+    "pretest": "npm run build && npm run lint",
+    "lint": "eslint src --ext ts",
+    "test": "vscode-test"
+  },
+  "dependencies": {
+    "markdownchat": "^0.0.10",
+    "openai": "^4.40.2"
+  },
+  "devDependencies": {
+    "@types/mocha": "^10.0.6",
+    "@types/node": "18.x",
+    "@types/vscode": "^1.88.0",
+    "@typescript-eslint/eslint-plugin": "^7.4.0",
+    "@typescript-eslint/parser": "^7.4.0",
+    "@vercel/ncc": "^0.38.1",
+    "@vscode/test-cli": "^0.0.8",
+    "@vscode/test-electron": "^2.3.9",
+    "eslint": "^8.57.0",
+    "typescript": "^5.3.3"
+  },
+  "vsce": {
+    "dependencies": false
+  },
+  "engines": {
+    "vscode": "^1.88.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aaronccasanova/markdownchat.git"
+  },
+  "license": "MIT"
+}
